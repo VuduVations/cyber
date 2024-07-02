@@ -1,3 +1,7 @@
+#cyberchoicesmb 
+#Author: S Halverson @vuduvations
+#License: BSD 3-Clause
+
 import pandas as pd
 import numpy as np
 import seaborn as sns
