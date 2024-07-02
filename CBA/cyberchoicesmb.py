@@ -4,27 +4,14 @@
 
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# Multiline string containing your CSV formatted data
-csv_data = '''Asset ID/Name,Type,Application/Software Name,Version,Vendor,Purchase Cost,Development Cost,Admin Cost,Annual Maintenance Cost,Criticality,Data Sensitivity,Threats,Safeguard Measures,Safeguard Cost,EF,Pre ARO,Post ARO,Pre SLE,Post SLE
-CRM001,Software,Salesforce,2023,Salesforce,500,100,50,120,High,High,Data breach; Unauthorized access,Two-factor authentication; Regular software updates,200,0.2,0.1,0.05,100,50
-ACC002,Software,QuickBooks Online,2023,Intuit,300,75,40,100,High,High,Malware; Phishing attacks,Antivirus software; Employee training on phishing,150,0.3,0.15,0.07,90,45
-INV003,Software,TradeGecko,2023,TradeGecko,200,50,30,80,Medium,Medium,Inventory data manipulation; Unauthorized access,User access control; Regular audits,100,0.25,0.12,0.06,80,40
-SCH004,Software,Calendly,2023,Calendly,0,0,20,50,Medium,Low,Denial of Service; Data breach,Cloud-based backups; Use of reputable cloud services,80,0.1,0.05,0.025,60,30
-WEB005,Software,WordPress,5.9,WordPress,0,0,25,100,High,Medium,SQL Injection; Cross-site scripting,Regular updates; Security plugins,120,0.4,0.2,0.1,110,55
-OFF006,Hardware,Office Computers,N/A,Dell,10000,2000,500,500,High,High,Physical theft; Hardware failure,Physical security; Regular hardware checks,500,0.5,0.25,0.12,5000,2500
-NET007,Hardware,Office Router,N/A,Netgear,200,0,10,0,High,High,Unauthorized access; MITM attacks,Firewall; Secure Wi-Fi encryption,180,0.4,0.2,0.1,80,40
-OFF008,Hardware,Workstation PCs,N/A,HP,8000,1500,400,400,High,Medium,Malware; Data corruption,Anti-malware software; Data backups,400,0.35,0.175,0.0875,2800,1400
-INV022,Software,Inventory Management System,2023,Custom,600,200,100,150,Medium,High,Data manipulation; Unauthorized access,Strong password policies; Encryption,220,0.3,0.15,0.075,180,90
-SEC023,Hardware,Security Cameras,N/A,Hikvision,3000,0,50,200,High,Low,Theft; Vandalism,Secure installation; Surveillance monitoring,250,0.2,0.1,0.05,600,300'''
-
-# Function to save CSV data to a file
-def save_csv_data(csv_data, file_path):
-    with open(file_path, "w", encoding="utf-8") as csv_file:
-        csv_file.write(csv_data)
-    print(f"CSV file has been created at: {file_path}")
+import plotly.express as px
+import plotly.graph_objects as go
+import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output, State
+import dash_bootstrap_components as dbc
+import base64
+import io
 
 # Function to calculate ALE
 def calculate_ale(pre_aro, post_aro, pre_sle, post_sle):
@@ -42,37 +29,108 @@ def update_cba_metrics(df):
     df['Decision'] = np.where(df['Net Savings'] > 0, 'Go', 'No Go')
     return df
 
-# Function to plot CBA metrics
-def plot_cba_metrics(df):
-    sns.set_style("whitegrid")
-    custom_palette = {'Go': 'green', 'No Go': 'red'}
-    fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(18, 12))
-    parameters = ['EF', 'Safeguard Cost', 'Pre ARO', 'Post ARO', 'Pre SLE', 'Post SLE', 'ALE_Pre', 'ALE_Post']
+# Interactive plot using Plotly
+def plot_interactive_cba_metrics(df):
+    metrics = ['EF', 'Safeguard Cost', 'Pre ARO', 'Post ARO', 'Pre SLE', 'Post SLE', 'ALE_Pre', 'ALE_Post']
 
-    for i, parameter in enumerate(parameters):
-        row = i // 3
-        col = i % 3
-        ax = axes[row, col]
-        sns.barplot(x='Asset ID/Name', y=parameter, data=df, hue='Decision', palette=custom_palette, ax=ax)
-        ax.set_title(f'{parameter} by Asset')
-        ax.set_xlabel('Asset ID/Name')
-        ax.set_ylabel(parameter)
-        ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
-        ax.legend(title='Decision')
+    # Plot for detailed metrics
+    fig1 = go.Figure()
+    for metric in metrics:
+        fig1.add_trace(go.Bar(
+            x=df['Application/Software Name'],
+            y=df[metric],
+            name=metric,
+            marker_color=np.where(df['Decision'] == 'Go', 'green', 'red'),
+            hovertext=df['Decision']
+        ))
 
-    plt.tight_layout()
-    plt.show()
+    fig1.update_layout(
+        barmode='group',
+        title='CBA Metrics by Asset',
+        xaxis_title='Application/Software Name',
+        yaxis_title='Value',
+        legend_title='Metric'
+    )
 
-# Main execution
-csv_file_path = "/content/updated_cba_security_controls.csv"
-save_csv_data(csv_data, csv_file_path)
+    # Plot for overall decision
+    fig2 = go.Figure()
+    fig2.add_trace(go.Bar(
+        x=df['Application/Software Name'],
+        y=[1] * len(df),  # Dummy value for height
+        name='Decision',
+        marker_color=np.where(df['Decision'] == 'Go', 'green', 'red'),
+        hovertext=df['Decision']
+    ))
 
-# Load the CSV into a DataFrame
-df = pd.read_csv(csv_file_path)
-df = update_cba_metrics(df)
+    fig2.update_layout(
+        title='Overall Go/No Go Decision by Asset',
+        xaxis_title='Application/Software Name',
+        yaxis_title='Decision',
+        yaxis=dict(
+            showticklabels=False,  # Hide the y-axis ticks
+            showgrid=False,
+            zeroline=False,
+        ),
+        showlegend=False
+    )
 
-# Display the updated DataFrame
-print(df.head(15))
+    return fig1, fig2
 
-# Plot the CBA metrics
-plot_cba_metrics(df)
+# Dash app setup
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+app.layout = dbc.Container([
+    dbc.Row([
+        dbc.Col(html.Img(src='assets/logo.png', height='100px'), width='auto'),
+        dbc.Col(html.H1("CyberChoice SMB- Cybersecurity Cost Benefits Analysis for Small and Medium Business"), className="text-center mt-4")
+    ]),
+    dbc.Row(dbc.Col(dcc.Upload(
+        id='upload-data',
+        children=html.Div(['Drag and Drop or ', html.A('Select a CSV File')]),
+        style={
+            'width': '100%',
+            'height': '60px',
+            'lineHeight': '60px',
+            'borderWidth': '1px',
+            'borderStyle': 'dashed',
+            'borderRadius': '5px',
+            'textAlign': 'center',
+            'margin': '10px'
+        },
+        multiple=False
+    ), className="mb-4")),
+    dbc.Row(dbc.Col(html.Div(id='output-data-upload'))),
+    dbc.Row([
+        dbc.Col(dcc.Graph(id='cba-metrics-plot', figure={}), width=6),
+        dbc.Col(dcc.Graph(id='cba-decision-plot', figure={}), width=6)
+    ])
+])
+
+def parse_contents(contents, filename):
+    content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string)
+    try:
+        if 'csv' in filename:
+            df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
+            df = update_cba_metrics(df)
+            fig1, fig2 = plot_interactive_cba_metrics(df)
+            return fig1, fig2
+    except Exception as e:
+        return html.Div([
+            'There was an error processing this file.'
+        ])
+
+@app.callback(
+    [Output('cba-metrics-plot', 'figure'),
+     Output('cba-decision-plot', 'figure')],
+    [Input('upload-data', 'contents')],
+    [State('upload-data', 'filename')]
+)
+def update_output(contents, filename):
+    if contents is not None:
+        fig1, fig2 = parse_contents(contents, filename)
+        return fig1, fig2
+    return {}, {}
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
