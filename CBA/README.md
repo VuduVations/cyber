@@ -76,10 +76,10 @@ Prepare your CSV data with the necessary columns:
 - `Pre SLE`
 - `Post SLE`
 
-1. Run the `app.py` script to start the web application:
+1. Run the `cyberchoicesmb.py` script to start the web application:
 
   ```sh
-   python app.py
+   python cyberchoicesmb.py
   ```
 
 2. Open a web browser and go to `http://127.0.0.1:8050` to interact with the application.
