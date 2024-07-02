@@ -1,10 +1,8 @@
-# Po'Boy CBA - Cybersecurity Cost Benefits Analysis
+# CyberChoice SMB - Cybersecurity Cost Benefits Analysis for Small Businesses
 
-![Po'Boy CBA Logo](images/logo.png)
+![CyberChoice SMB Logo](cyberchoicelogo.png)
 
-# Po'Boy CBA - Cybersecurity Cost Benefits Analysis
-
-Po'Boy CBA is an open-source Python-based tool designed to help organizations analyze the cost benefits of implementing cybersecurity measures. By evaluating various assets, threats, and safeguards, Po'Boy CBA provides insights into the financial impact of different security strategies. Now, with a user-friendly web interface built using Dash, users can easily upload their data and visualize the results interactively.
+CyberChoice SMB is an open-source Python-based tool designed to help small businesses evaluate the cost benefits of implementing cybersecurity measures. By assessing various assets, threats, and safeguards, CyberChoice SMB provides insights into the financial impact of different security strategies, helping businesses make informed decisions on whether to upgrade or update their cybersecurity infrastructure.
 
 ## Table of Contents
 
@@ -25,19 +23,25 @@ Po'Boy CBA is an open-source Python-based tool designed to help organizations an
 - Visualize key metrics through informative plots.
 - Interactive web interface for uploading data and visualizing results.
 
+## Benefits for Small Businesses
+
+- **Informed Decision-Making**: Assess the financial impact of potential cybersecurity upgrades and updates.
+- **Cost-Effectiveness**: Determine the most cost-effective security measures to implement.
+- **Risk Assessment**: Understand the potential risks and their implications for your business.
+- **Resource Allocation**: Optimize resource allocation by identifying critical areas needing attention.
+
 ## Installation
 
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/your-username/poboy-cba.git
-
+   git clone https://github.com/your-username/cyberchoice-smb.git
    ```
 
 2. Navigate to the project directory:
 
    ```sh
-   cd poboy-cba
+   cd cyberchoice-smb
    ```
 
 3. Install the required dependencies:
@@ -50,33 +54,34 @@ Po'Boy CBA is an open-source Python-based tool designed to help organizations an
 
 Prepare your CSV data with the necessary columns:
 
-- Asset ID/Name
-- Type
-- Application/Software Name
-- Version
-- Vendor
-- Purchase Cost
-- Development Cost
-- Admin Cost
-- Annual Maintenance Cost
-- Criticality
-- Data Sensitivity
-- Threats
-- Safeguard Measures
-- Safeguard Cost
-- EF
-- Pre ARO
-- Post ARO
-- Pre SLE
-- Post SLE
+- `Asset ID/Name`
+- `Type`
+- `Application/Software Name`
+- `Version`
+- `Vendor`
+- `Purchase Cost`
+- `Development Cost`
+- `Admin Cost`
+- `Annual Maintenance Cost`
+- `Criticality`
+- `Data Sensitivity`
+- `Threats`
+- `Safeguard Measures`
+- `Safeguard Cost`
+- `EF`
+- `Pre ARO`
+- `Post ARO`
+- `Pre SLE`
+- `Post SLE`
 
-1. Run the app.py script to start the web application:
+1. Run the `app.py` script to start the web application:
 
   ```sh
    python app.py
   ```
-2. Open a web browser and go to http://127.0.0.1:8050 to interact with the application.
-   
+
+2. Open a web browser and go to `http://127.0.0.1:8050` to interact with the application.
+
 3. Upload your CSV file to see the CBA metrics and overall decisions.
 
 ## Definitions
@@ -84,10 +89,9 @@ Prepare your CSV data with the necessary columns:
 `Safeguard Cost`: The total cost associated with implementing a specific safeguard measure to protect an asset from potential threats. This includes initial implementation costs and any ongoing expenses directly related to the safeguard.
 Example: If a company installs a firewall to protect its network, the safeguard cost would include the purchase price of the firewall and any associated setup and maintenance fees.
 
-
 The Exposure Factor uses the term 'asset' which can be confusing.  
 
-In reality, the asset being referenced is the value of entity (e.g., Hardware, Software, Data) that is at risk of loss or damage due to a specific threat.
+In reality, the asset being referenced is the value of an entity (e.g., Hardware, Software, Data) that is at risk of loss or damage due to a specific threat.
 
 `Hardware Assets:`
 
@@ -102,7 +106,7 @@ For example, if a firewall costs $10,000 and a breach could result in 20% of its
  - Example: Applications, operating systems, and databases.
  - Use Case: For a customer relationship management (CRM) software, EF might measure the potential loss if customer data is exposed due to a vulnerability.
 
-There are several examples of data breaches and the costs associated with audits, reporting, and fines.  You could measure the EF for CRM that might reflect the potential loss if customer data 
+There are several examples of data breaches and the costs associated with audits, reporting, and fines. You could measure the EF for CRM that might reflect the potential loss if customer data 
 is exposed due to a vulnerability. If the CRM software's value is estimated at $50,000 and a data breach could compromise 30% of this value (due to loss of business, fines, and remediation costs), the EF would be 0.3 (or 30%).
 
 `Data Assets:`
