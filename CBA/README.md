@@ -1,4 +1,4 @@
-# CyberChoice SMB - Cybersecurity Cost Benefits Analysis for Small Businesses
+# CyberChoice SMB - Cybersecurity Cost Benefits Analysis for Small Businesses by VuduVations
 
 ![CyberChoice SMB Logo](cyberchoicelogo.png)
 
