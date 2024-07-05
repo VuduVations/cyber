@@ -4,7 +4,7 @@
 
 VuduVations CBA for the SMB is an open-source Python-based tool designed to help small businesses evaluate the cost benefits of implementing cybersecurity measures. By assessing various assets, threats, and safeguards, CyberChoice SMB provides insights into the financial impact of different security strategies, helping businesses make informed decisions on whether to upgrade or update their cybersecurity infrastructure.
 
-![CBA SMB Dashboard](dashboard1.png)
+![CBA SMB Dashboard](assets/dashboard1.png)
 
 ## Table of Contents
 
