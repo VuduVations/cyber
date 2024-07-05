@@ -1,10 +1,10 @@
-# CyberChoice SMB - Cybersecurity Cost Benefits Analysis for Small Businesses by VuduVations
+# VuduVations CMB for the SMB - Cybersecurity Cost Benefits Analysis for Small Businesses
 
-![CyberChoice SMB Logo](assets/cyberchoicelogo.png)
+![CyberChoice SMB Logo](assets/logo.png)
 
-CyberChoice SMB is an open-source Python-based tool designed to help small businesses evaluate the cost benefits of implementing cybersecurity measures. By assessing various assets, threats, and safeguards, CyberChoice SMB provides insights into the financial impact of different security strategies, helping businesses make informed decisions on whether to upgrade or update their cybersecurity infrastructure.
+VuduVations CBA for the SMB is an open-source Python-based tool designed to help small businesses evaluate the cost benefits of implementing cybersecurity measures. By assessing various assets, threats, and safeguards, CyberChoice SMB provides insights into the financial impact of different security strategies, helping businesses make informed decisions on whether to upgrade or update their cybersecurity infrastructure.
 
-![Cyberchoice SMB Dashboard](dashboard.png)
+![Cyberchoice SMB Dashboard](dashboard1.png)
 
 ## Table of Contents
 
@@ -24,6 +24,7 @@ CyberChoice SMB is an open-source Python-based tool designed to help small busin
 - Make informed decisions with the `Go` or `No Go` criterion.
 - Visualize key metrics through informative plots.
 - Interactive web interface for uploading data and visualizing results.
+- Additional plots for budget allocation, cost-effectiveness, and cost-benefit heatma
 
 ## Benefits for Small Businesses
 
@@ -88,20 +89,22 @@ Prepare your CSV data with the necessary columns:
 
 ## Definitions
 
-`Safeguard Cost`: The total cost associated with implementing a specific safeguard measure to protect an asset from potential threats. This includes initial implementation costs and any ongoing expenses directly related to the safeguard.
+`Safeguard Cost: The total cost associated with implementing a specific safeguard measure to protect an asset from potential threats. This includes initial implementation costs and any ongoing expenses directly related to the safeguard.
+
 Example: If a company installs a firewall to protect its network, the safeguard cost would include the purchase price of the firewall and any associated setup and maintenance fees.
 
 The Exposure Factor uses the term 'asset' which can be confusing.  
 
-In reality, the asset being referenced is the value of an entity (e.g., Hardware, Software, Data) that is at risk of loss or damage due to a specific threat.
+In reality, the asset being referenced is the value of entity (e.g., Hardware, Software, Data) that is at risk of loss or damage due to a specific threat.
 
 `Hardware Assets:`
 
  - Example: Servers, computers, networking equipment (such as firewalls and routers), and storage devices.
  - Use Case: For a server, EF might measure the percentage of its value that could be lost in a data breach. For a firewall, EF might measure the percentage of its value that could be impacted if the firewall is compromised or fails.
 
-So, how do you measure a hardware asset like a firewall? The exposure factor for a firewall might reflect the percentage of the firewall's value that could be lost if it is breached or fails to prevent an attack. 
-For example, if a firewall costs $10,000 and a breach could result in 20% of its value being compromised (due to damage or replacement costs), the EF would be 0.2 (or 20%).
+So, how do you measure a hardware asset like a firewall? The exposure factor for a firewall might reflect the percentage of the firewall's value that could be lost if it is breached or fails to prevent an attack.
+
+Example: If a firewall costs $10,000 and a breach could result in 20% of its value being compromised (due to damage or replacement costs), the EF would be 0.2 (or 20%).
 
 `Software Assets:`
 
