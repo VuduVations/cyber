@@ -119,4 +119,4 @@ decrypt_folder(encrypted_folder, decrypted_folder, password)
 Contributions are welcome! Please create a pull request with detailed information on any changes.
 
 ## License
-BSD 3-Clause License - see the [LICENSE](license.md) file for details.
+BSD 3-Clause License - see the [LICENSE](License.md) file for details.
