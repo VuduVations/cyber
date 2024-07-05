@@ -1,6 +1,6 @@
-#cyberchoicesmb 
-#Author: S Halverson @vuduvations
-#License: BSD 3-Clause
+# cyberchoicesmb 
+# Author: S Halverson @vuduvations
+# License: BSD 3-Clause
 
 import pandas as pd
 import numpy as np
@@ -74,7 +74,30 @@ def plot_interactive_cba_metrics(df):
         showlegend=False
     )
 
-    return fig1, fig2
+    # Budget allocation plot
+    fig3 = px.pie(df, values='ACS', names='Application/Software Name', title='Budget Allocation for Safeguards')
+
+    # Cost-effectiveness plot
+    fig4 = go.Figure()
+    fig4.add_trace(go.Scatter(
+        x=df['Application/Software Name'],
+        y=df['Net Savings'],
+        mode='markers+text',
+        marker=dict(color=np.where(df['Net Savings'] > 0, 'green', 'red')),
+        text=df['Net Savings'],
+        textposition='top center'
+    ))
+    fig4.update_layout(
+        title='Cost Effectiveness of Safeguards',
+        xaxis_title='Application/Software Name',
+        yaxis_title='Net Savings'
+    )
+
+    # Heatmap for cost-benefit analysis
+    heatmap_data = df.set_index('Application/Software Name')[['ALE_Pre', 'ALE_Post', 'ACS', 'Net Savings']]
+    fig5 = px.imshow(heatmap_data.T, text_auto=True, aspect="auto", title='Cost-Benefit Analysis Heatmap')
+
+    return fig1, fig2, fig3, fig4, fig5
 
 # Dash app setup
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -82,7 +105,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.Img(src='assets/logo.png', height='100px'), width='auto'),
-        dbc.Col(html.H1("CyberChoice SMB- Cybersecurity Cost Benefits Analysis for Small and Medium Business"), className="text-center mt-4")
+        dbc.Col(html.H1("VuduVations CBA for the SMB- Cybersecurity Cost Benefits Analysis for Small and Medium Business"), className="text-center mt-4")
     ]),
     dbc.Row(dbc.Col(dcc.Upload(
         id='upload-data',
@@ -103,8 +126,13 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(dcc.Graph(id='cba-metrics-plot', figure={}), width=6),
         dbc.Col(dcc.Graph(id='cba-decision-plot', figure={}), width=6)
-    ])
-])
+    ]),
+    dbc.Row([
+        dbc.Col(dcc.Graph(id='budget-allocation-plot', figure={}), width=6),
+        dbc.Col(dcc.Graph(id='cost-effectiveness-plot', figure={}), width=6)
+    ]),
+    dbc.Row(dbc.Col(dcc.Graph(id='cost-benefit-heatmap', figure={}), width=12))
+], style={'backgroundColor': 'white'})  # Set background to white
 
 def parse_contents(contents, filename):
     content_type, content_string = contents.split(',')
@@ -113,24 +141,26 @@ def parse_contents(contents, filename):
         if 'csv' in filename:
             df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
             df = update_cba_metrics(df)
-            fig1, fig2 = plot_interactive_cba_metrics(df)
-            return fig1, fig2
+            fig1, fig2, fig3, fig4, fig5 = plot_interactive_cba_metrics(df)
+            return fig1, fig2, fig3, fig4, fig5
     except Exception as e:
-        return html.Div([
-            'There was an error processing this file.'
-        ])
+        print(e)
+        return {}, {}, {}, {}, {}
 
 @app.callback(
     [Output('cba-metrics-plot', 'figure'),
-     Output('cba-decision-plot', 'figure')],
+     Output('cba-decision-plot', 'figure'),
+     Output('budget-allocation-plot', 'figure'),
+     Output('cost-effectiveness-plot', 'figure'),
+     Output('cost-benefit-heatmap', 'figure')],
     [Input('upload-data', 'contents')],
     [State('upload-data', 'filename')]
 )
 def update_output(contents, filename):
     if contents is not None:
-        fig1, fig2 = parse_contents(contents, filename)
-        return fig1, fig2
-    return {}, {}
+        fig1, fig2, fig3, fig4, fig5 = parse_contents(contents, filename)
+        return fig1, fig2, fig3, fig4, fig5
+    return {}, {}, {}, {}, {}
 
 if __name__ == '__main__':
     app.run_server(debug=True)
