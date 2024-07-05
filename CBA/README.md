@@ -188,4 +188,4 @@ Please fork the repository and submit a pull request for any enhancements or bug
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+BSD 3-Clause License - see the [LICENSE](license.md) file for details.
