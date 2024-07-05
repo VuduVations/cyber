@@ -1,10 +1,10 @@
 # VuduVations AES CBC Folder Encryption and Decryption
 
-This repository contains Python scripts for encrypting and decrypting files within a folder. The scripts use AES encryption in CBC mode for securing files. Additionally, the scripts handle backing up original files and creating necessary directories.
-
 <div align="center">
-  <img src="CBA/assets/logo.png" alt="CyberChoice SMB Logo" height="333px">
+  <img src="images/logo.png" alt="CBA SMB Logo" height="333px">
 </div>
+
+This repository contains Python scripts for encrypting and decrypting files within a folder. The scripts use AES encryption in CBC mode for securing files. Additionally, the scripts handle backing up original files and creating necessary directories.
 
 ## Features
 
@@ -108,12 +108,15 @@ encrypted_folder = '/path/to/encrypted/folder'
 decrypted_folder = '/path/to/decrypted/folder'
 
 decrypt_folder(encrypted_folder, decrypted_folder, password)
-Security Considerations
-Password Management: Ensure the password used for encryption is securely managed and not hard-coded in production environments.
-Backup Storage: Store backups in a secure location to prevent unauthorized access.
-Key Management: Use a secure method for storing and managing encryption keys.
-Contributing
+```
+
+## Security Considerations:
+  - Password Management: Ensure the password used for encryption is securely managed and not hard-coded in production environments.
+  - Backup Storage: Store backups in a secure location to prevent unauthorized access.
+  - Key Management: Use a secure method for storing and managing encryption keys.
+
+## Contributing
 Contributions are welcome! Please create a pull request with detailed information on any changes.
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## License
+BSD 3-Clause License - see the [LICENSE](license.md) file for details.
