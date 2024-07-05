@@ -1,6 +1,7 @@
 # VuduVations CMB for the SMB - Cybersecurity Cost Benefits Analysis for Small Businesses
-
-![CyberChoice SMB Logo](assets/logo.png)
+<div align="center">
+  <img src="assets/logo.png" alt="CyberChoice SMB Logo" height="333px">
+</div>
 
 VuduVations CBA for the SMB is an open-source Python-based tool designed to help small businesses evaluate the cost benefits of implementing cybersecurity measures. By assessing various assets, threats, and safeguards, CyberChoice SMB provides insights into the financial impact of different security strategies, helping businesses make informed decisions on whether to upgrade or update their cybersecurity infrastructure.
 
