@@ -6,12 +6,32 @@
 
 This repository contains Python scripts for encrypting and decrypting files within a folder. The scripts use AES encryption in CBC mode for securing files. Additionally, the scripts handle backing up original files and creating necessary directories.
 
+## Use Cases for using CBC (Cipher Block Chaining)
+
+**Legacy Systems:**
+
+  - **Scenario:** You are maintaining or upgrading an older system that was originally designed using CBC.
+
+  - **Reason:** CBC has been around for a long time and is still used in many legacy applications. Implementing it in a system that already uses CBC may be simpler and ensure compatibility without the need for extensive modifications.
+
+**Disk Encryption:**
+
+  - **Scenario:** Encrypting disk data, such as with BitLocker.
+
+  - **Reason:** Disk encryption systems often use CBC mode because they can benefit from its properties when dealing with fixed-size blocks of data, and performance overhead is less of a concern compared to real-time communication.
+
+**Encrypting Large Files:**
+
+  - **Scenario:** You need to encrypt large files where performance is not as critical as ensuring confidentiality.
+
+  - **Reason:** CBC mode can handle large data efficiently and is less computationally intensive than GCM (Galois/Counter Model which another form of AES). However, additional measures may be needed to ensure data integrity.
+
 ## Features
 
-- **Custom File Encryption**: Encrypt individual files using AES encryption in CBC mode.
-- **Backup Original Files**: Backup the original unencrypted files to a specified directory.
-- **Decryption**: Decrypt encrypted files and save them to a specified output directory.
-- **Directory Creation**: Automatically create backup and decrypted directories if they do not exist.
+  - **Custom File Encryption**: Encrypt individual files using AES encryption in CBC mode.
+  - **Backup Original Files**: Backup the original unencrypted files to a specified directory.
+  - **Decryption**: Decrypt encrypted files and save them to a specified output directory.
+  - **Directory Creation**: Automatically create backup and decrypted directories if they do not exist.
 
 ## Requirements
 
